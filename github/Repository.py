@@ -579,7 +579,7 @@ class Repository(github.GithubObject.CompletableGithubObject):
         """
         self._completeIfNotSet(self._subscribers_url)
         return self._subscribers_url.value
-    
+
     @property
     def subscribers_count(self):
         """
@@ -1142,12 +1142,20 @@ class Repository(github.GithubObject.CompletableGithubObject):
         """
         :calls: `GET /repos/:owner/:repo/collaborators <http://developer.github.com/v3/repos/collaborators>`_
         :rtype: :class:`github.PaginatedList.PaginatedList` of :class:`github.NamedUser.NamedUser`
+        :param affiliation: string
         """
+        assert affiliation is github.GithubObject.NotSet or isinstance(affiliation, str), affiliation
+
+        url_parameters = dict()
+        if affiliation is not github.GithubObject.NotSet:
+            url_parameters["affiliation"] = affiliation
+
+
         return github.PaginatedList.PaginatedList(
             github.NamedUser.NamedUser,
             self._requester,
             self.url + "/collaborators",
-            None
+            url_parameters
         )
 
     def get_comment(self, id):

@@ -153,7 +153,7 @@ class GithubObject(object):
 
     @staticmethod
     def _makeTimestampAttribute(value):
-        return GithubObject.__makeTransformedAttribute(value, (int, long), datetime.datetime.utcfromtimestamp)
+        return GithubObject.__makeTransformedAttribute(value, (int, long), datetime.datetime.fromtimestamp)
 
     @staticmethod
     def _makeDatetimeAttribute(value):

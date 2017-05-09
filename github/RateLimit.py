@@ -41,9 +41,20 @@ class RateLimit(github.GithubObject.NonCompletableGithubObject):
         """
         return self._rate.value
 
+    @property
+    def search(self):
+        """
+        :type: class:`github.Rate.Rate`
+        """
+        return self._search.value
+
     def _initAttributes(self):
         self._rate = github.GithubObject.NotSet
+        self._search = github.GithubObject.NotSet
 
     def _useAttributes(self, attributes):
         if "rate" in attributes:  # pragma no branch
             self._rate = self._makeClassAttribute(github.Rate.Rate, attributes["rate"])
+        if "resources" in attributes:  # pragma no branch
+            if "search" in attributes["resources"]:
+                self._search = self._makeClassAttribute(github.Rate.Rate, attributes["resources"]["search"])
